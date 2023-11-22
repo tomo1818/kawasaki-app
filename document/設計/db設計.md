@@ -10,6 +10,7 @@ Users {
   email    string "メールアドレス"
   profile_picture string "プロフィール画像のurl"
   room_number int "部屋番号"
+  authority int "権限(0: ユーザー, 1: 管理者)"
   timestamp TIMESTAMP "ユーザーのタイムスタンプ"
 }
 ```
@@ -83,6 +84,19 @@ MessageGroups {
 }
 ```
 
+### 1.8. 食事予約テーブル
+```mermaid
+erDiagram
+MealReservations {
+  reservation_id index PK "食事予約の一意の識別子"
+  user_id index FK "ユーザーの一意の識別子"
+  meal_date DATE "食事予約の日付"
+  breakfast boolean "朝食の予約の有無"
+  dinner boolean "夕食の予約の有無"
+  timestamp TIMESTAMP "食事予約のタイムスタンプ"
+}
+```
+
 ## 2. ER図
 
 ```mermaid
@@ -90,6 +104,7 @@ erDiagram
   Users ||--|{ Locations: ""
   Users ||--o{ UserMessages: ""
   Users ||--o{ UserGroups: ""
+  Users ||--|{ MealReservations: ""
   Messages ||--o{ MessageGroups: ""
   Messages ||--o{ UserMessages: ""
   Groups ||--o{ MessageGroups: ""
@@ -102,6 +117,7 @@ erDiagram
     email    string "メールアドレス"
     profile_picture string "プロフィール画像のurl"
     room_number int "部屋番号"
+    authority int "権限(0: ユーザー, 1: 管理者)"
     timestamp TIMESTAMP "ユーザーのタイムスタンプ"
   }
 
@@ -127,6 +143,15 @@ erDiagram
     latitude    DECIMAL "緯度"
     longitude   DECIMAL "経度"
     timestamp   TIMESTAMP "位置情報のタイムスタンプ"
+  }
+
+  MealReservations {
+    reservation_id index PK "食事予約の一意の識別子"
+    user_id index FK "ユーザーの一意の識別子"
+    meal_date DATE "食事予約の日付"
+    breakfast boolean "朝食の予約の有無"
+    dinner boolean "夕食の予約の有無"
+    timestamp TIMESTAMP "食事予約のタイムスタンプ"
   }
 
   UserMessages {
